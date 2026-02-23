@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { useData } from 'vitepress'
+import { useRoute } from 'vitepress'
+import { computed } from 'vue'
 
 defineProps<{
   path: string
 }>()
 
-const repoBase = 'https://github.com'
+const route = useRoute()
+const isZh = computed(() => route.path.startsWith('/zh/'))
 </script>
 
 <template>
@@ -15,7 +17,7 @@ const repoBase = 'https://github.com'
       target="_blank"
       rel="noopener noreferrer"
       class="colab-badge"
-      title="在 Google Colab 中打开（需要先将项目推送到 GitHub）"
+      :title="isZh ? '在 Google Colab 中打开' : 'Open in Google Colab'"
     >
       <img
         src="https://colab.research.google.com/assets/colab-badge.svg"
@@ -23,7 +25,7 @@ const repoBase = 'https://github.com'
       />
     </a>
     <span class="colab-local-hint">
-      本地运行：<code>jupyter notebook {{ path }}</code>
+      {{ isZh ? '本地运行：' : 'Run locally: ' }}<code>jupyter notebook {{ path }}</code>
     </span>
   </div>
 </template>

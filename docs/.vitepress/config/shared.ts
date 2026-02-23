@@ -44,7 +44,7 @@ export const shared: UserConfig = {
     logo: '/logo.svg',
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com' },
+      { icon: 'github', link: 'https://github.com/forhow134/ai-coding-guide' },
     ],
   },
 }

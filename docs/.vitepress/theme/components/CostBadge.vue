@@ -1,12 +1,18 @@
 <script setup lang="ts">
+import { useRoute } from 'vitepress'
+import { computed } from 'vue'
+
 defineProps<{
   cost: string
 }>()
+
+const route = useRoute()
+const isZh = computed(() => route.path.startsWith('/zh/'))
 </script>
 
 <template>
-  <span class="cost-badge" :title="`预计 API 费用：${cost}`">
-    {{ cost === '$0' ? '免费' : `~${cost}` }}
+  <span class="cost-badge" :title="isZh ? `预计 API 费用：${cost}` : `Estimated API cost: ${cost}`">
+    {{ cost === '$0' ? (isZh ? '免费' : 'Free') : `~${cost}` }}
   </span>
 </template>
 
