@@ -1,0 +1,18 @@
+{
+  "name": "ai-coding-guide",
+  "version": "1.0.0",
+  "description": "AI 编程从入门到实战 — 为 IT 部门打造的 AI 编程科普教程",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "devDependencies": {
+    "mermaid": "^11.12.3",
+    "three": "^0.172.0",
+    "vitepress": "^1.6.4",
+    "vitepress-plugin-mermaid": "^2.0.17"
+  }
+}
