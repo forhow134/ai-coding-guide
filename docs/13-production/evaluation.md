@@ -69,7 +69,7 @@ Evaluation dimensions (score 1-10 for each):
 4. Fluency: Is the expression clear
 
 Output format:
-{{
+\{\{
   "accuracy": <score>,
   "relevance": <score>,
   "completeness": <score>,
@@ -222,7 +222,7 @@ Evaluation dimensions (score 1-10 for each):
 4. Fluency: Is the expression clear
 
 Output JSON format:
-{{
+\{\{
   "accuracy": <1-10>,
   "relevance": <1-10>,
   "completeness": <1-10>,
