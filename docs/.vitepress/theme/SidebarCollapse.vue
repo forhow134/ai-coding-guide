@@ -71,7 +71,15 @@ function toggleAside() {
 }
 
 function initSidebarBtn() {
-  if (document.getElementById(SIDEBAR_ID)) return
+  const existing = document.getElementById(SIDEBAR_ID)
+  const hasSidebar = !!document.querySelector('.VPContent.has-sidebar')
+
+  if (!hasSidebar) {
+    if (existing) existing.remove()
+    return
+  }
+
+  if (existing) return
 
   const btn = createButton(SIDEBAR_ID)
   btn.addEventListener('click', toggleSidebar)
@@ -134,6 +142,7 @@ onUnmounted(() => {
 watch(() => route.path, () => {
   nextTick(() => {
     setTimeout(() => {
+      initSidebarBtn()
       initAsideBtn()
     }, 400)
   })
