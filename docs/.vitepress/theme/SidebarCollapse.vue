@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch, nextTick } from 'vue'
-import { useRoute } from 'vitepress'
+import { useRoute, useData } from 'vitepress'
 
 const route = useRoute()
+const { frontmatter } = useData()
 
 const SIDEBAR_ID = 'sc-sidebar-btn'
 const ASIDE_ID = 'sc-aside-btn'
@@ -72,9 +73,16 @@ function toggleAside() {
 
 function initSidebarBtn() {
   const existing = document.getElementById(SIDEBAR_ID)
-  const hasSidebar = !!document.querySelector('.VPContent.has-sidebar')
+  
+  // Do not show on homepage or pages that explicitly disable sidebar
+  if (frontmatter.value.layout === 'home' || frontmatter.value.sidebar === false) {
+    if (existing) existing.remove()
+    return
+  }
 
-  if (!hasSidebar) {
+  // Also check if VitePress rendered the sidebar container
+  const hasSidebarDom = !!document.querySelector('.VPContent.has-sidebar, .VPSidebar')
+  if (!hasSidebarDom) {
     if (existing) existing.remove()
     return
   }
@@ -139,7 +147,18 @@ onUnmounted(() => {
   document.documentElement.classList.remove('sc-sidebar-collapsed', 'sc-aside-collapsed')
 })
 
-watch(() => route.path, () => {
+watch(() => route.path, (newPath, oldPath) => {
+  const isHomePath = (p: string | undefined) => !p || p === '/' || p === '/zh/' || p.endsWith('index.html')
+  
+  // If navigating from the homepage to a document, always default to expanded
+  if (isHomePath(oldPath) && !isHomePath(newPath)) {
+    isSidebarCollapsed.value = false
+    localStorage.setItem('vp-sc-sidebar', 'false')
+    document.documentElement.classList.remove('sc-sidebar-collapsed')
+    const btn = document.getElementById(SIDEBAR_ID) as HTMLButtonElement | null
+    if (btn) updateSidebarBtn(btn)
+  }
+
   nextTick(() => {
     setTimeout(() => {
       initSidebarBtn()
