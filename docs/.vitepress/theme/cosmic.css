@@ -1011,6 +1011,36 @@ html.sc-aside-collapsed #sc-aside-btn {
   right: 0;
 }
 
+/* Content widescreen when panels collapsed */
+@media (min-width: 960px) {
+  html.sc-sidebar-collapsed .VPDoc:not(.has-aside) .container > .content,
+  html.sc-sidebar-collapsed .VPDoc.has-aside .container > .content {
+    max-width: 100% !important;
+    transition: max-width 0.3s ease;
+  }
+  html.sc-sidebar-collapsed .VPDoc .container {
+    max-width: 100% !important;
+    transition: max-width 0.3s ease;
+  }
+}
+
+@media (min-width: 1280px) {
+  html.sc-aside-collapsed .VPDoc .container {
+    max-width: 100% !important;
+    transition: max-width 0.3s ease;
+  }
+  html.sc-aside-collapsed .VPDoc .container > .content {
+    max-width: 100% !important;
+    transition: max-width 0.3s ease;
+  }
+}
+
+html.sc-sidebar-collapsed.sc-aside-collapsed .VPDoc .container,
+html.sc-sidebar-collapsed.sc-aside-collapsed .VPDoc .container > .content {
+  max-width: 100% !important;
+  transition: max-width 0.3s ease;
+}
+
 /* Desktop-only buttons */
 #sc-sidebar-btn {
   display: none;
