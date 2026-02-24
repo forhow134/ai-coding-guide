@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch, nextTick } from 'vue'
-import { useRoute, useData } from 'vitepress'
+import { useRoute } from 'vitepress'
 
 const route = useRoute()
-const { frontmatter } = useData()
 
 const SIDEBAR_ID = 'sc-sidebar-btn'
 const ASIDE_ID = 'sc-aside-btn'
@@ -43,47 +42,45 @@ function updateAsideBtn(btn: HTMLButtonElement) {
   }
 }
 
-function toggleSidebar() {
-  isSidebarCollapsed.value = !isSidebarCollapsed.value
-  localStorage.setItem('vp-sc-sidebar', String(isSidebarCollapsed.value))
-  
-  if (isSidebarCollapsed.value) {
+function setSidebarCollapsed(collapsed: boolean) {
+  isSidebarCollapsed.value = collapsed
+  if (collapsed) {
     document.documentElement.classList.add('sc-sidebar-collapsed')
   } else {
     document.documentElement.classList.remove('sc-sidebar-collapsed')
   }
-  
   const btn = document.getElementById(SIDEBAR_ID) as HTMLButtonElement | null
   if (btn) updateSidebarBtn(btn)
 }
 
-function toggleAside() {
-  isAsideCollapsed.value = !isAsideCollapsed.value
-  localStorage.setItem('vp-sc-aside', String(isAsideCollapsed.value))
-  
-  if (isAsideCollapsed.value) {
+function setAsideCollapsed(collapsed: boolean) {
+  isAsideCollapsed.value = collapsed
+  localStorage.setItem('vp-sc-aside', String(collapsed))
+  if (collapsed) {
     document.documentElement.classList.add('sc-aside-collapsed')
   } else {
     document.documentElement.classList.remove('sc-aside-collapsed')
   }
-  
   const btn = document.getElementById(ASIDE_ID) as HTMLButtonElement | null
   if (btn) updateAsideBtn(btn)
 }
 
+function toggleSidebar() {
+  setSidebarCollapsed(!isSidebarCollapsed.value)
+}
+
+function toggleAside() {
+  setAsideCollapsed(!isAsideCollapsed.value)
+}
+
 function initSidebarBtn() {
   const existing = document.getElementById(SIDEBAR_ID)
-  
-  // Do not show on homepage or pages that explicitly disable sidebar
-  if (frontmatter.value.layout === 'home' || frontmatter.value.sidebar === false) {
-    if (existing) existing.remove()
-    return
-  }
+  const hasSidebar = !!document.querySelector('.VPContent.has-sidebar')
 
-  // Also check if VitePress rendered the sidebar container
-  const hasSidebarDom = !!document.querySelector('.VPContent.has-sidebar, .VPSidebar')
-  if (!hasSidebarDom) {
+  if (!hasSidebar) {
     if (existing) existing.remove()
+    // Also ensure no stale collapsed state when there's no sidebar
+    document.documentElement.classList.remove('sc-sidebar-collapsed')
     return
   }
 
@@ -102,7 +99,6 @@ function initAsideBtn() {
   const asideEl = document.querySelector('.VPDoc .aside')
   if (!asideEl) return
 
-  // Measure and set aside width for accurate positioning
   const asideWidth = asideEl.getBoundingClientRect().width
   if (asideWidth > 0) {
     document.documentElement.style.setProperty('--sc-aside-width', `${asideWidth}px`)
@@ -114,11 +110,6 @@ function initAsideBtn() {
   document.body.appendChild(btn)
 }
 
-function init() {
-  initSidebarBtn()
-  initAsideBtn()
-}
-
 function onResize() {
   if (window.innerWidth >= 960) {
     initAsideBtn()
@@ -126,15 +117,17 @@ function onResize() {
 }
 
 onMounted(() => {
-  isSidebarCollapsed.value = localStorage.getItem('vp-sc-sidebar') === 'true'
+  // Sidebar always starts expanded — no localStorage persistence
+  isSidebarCollapsed.value = false
+
+  // Aside can persist its state
   isAsideCollapsed.value = localStorage.getItem('vp-sc-aside') === 'true'
-  
-  if (isSidebarCollapsed.value) document.documentElement.classList.add('sc-sidebar-collapsed')
   if (isAsideCollapsed.value) document.documentElement.classList.add('sc-aside-collapsed')
 
   nextTick(() => {
     setTimeout(() => {
-      init()
+      initSidebarBtn()
+      initAsideBtn()
       window.addEventListener('resize', onResize)
     }, 400)
   })
@@ -147,20 +140,11 @@ onUnmounted(() => {
   document.documentElement.classList.remove('sc-sidebar-collapsed', 'sc-aside-collapsed')
 })
 
-watch(() => route.path, (newPath, oldPath) => {
-  const isHomePath = (p: string | undefined) => !p || p === '/' || p === '/zh/' || p.endsWith('index.html')
-  
-  // If navigating from the homepage to a document, always default to expanded
-  if (isHomePath(oldPath) && !isHomePath(newPath)) {
-    isSidebarCollapsed.value = false
-    localStorage.setItem('vp-sc-sidebar', 'false')
-    document.documentElement.classList.remove('sc-sidebar-collapsed')
-    const btn = document.getElementById(SIDEBAR_ID) as HTMLButtonElement | null
-    if (btn) updateSidebarBtn(btn)
-  }
-
+watch(() => route.path, () => {
   nextTick(() => {
     setTimeout(() => {
+      // Always reset sidebar to expanded on page navigation
+      setSidebarCollapsed(false)
       initSidebarBtn()
       initAsideBtn()
     }, 400)
