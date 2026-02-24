@@ -48,7 +48,7 @@ When you start using LLM APIs, you'll encounter these strange phenomena:
 ```mermaid
 graph LR
     A["Hello World!<br/>你好世界"] -->|Tokenizer| B["Token Sequence"]
-    B --> C["[15496, 2159, 0, 108, 95, 108]"]
+    B --> C["(15496, 2159, 0, 108, 95, 108)"]
     
     C -->|LLM Processing| D["Output Token ID"]
     D -->|Decoding| E["Generated Text"]

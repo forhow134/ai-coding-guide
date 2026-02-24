@@ -2,6 +2,7 @@
 import DefaultTheme from 'vitepress/theme'
 import { useAutoLang } from './composables/useAutoLang'
 import MermaidZoom from './MermaidZoom.vue'
+import SidebarCollapse from './SidebarCollapse.vue'
 import ProgressNav from './components/ProgressNav.vue'
 import PathNavigator from './components/PathNavigator.vue'
 
@@ -16,6 +17,7 @@ useAutoLang()
       <ClientOnly>
         <CosmicBackground />
         <MermaidZoom />
+        <SidebarCollapse />
       </ClientOnly>
     </template>
     <template #nav-bar-content-before>

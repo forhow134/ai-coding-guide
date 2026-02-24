@@ -934,3 +934,108 @@ div[class*="language-"]:hover {
     text-align: left;
   }
 }
+
+/* ===== Sidebar / Aside Collapse Buttons ===== */
+
+/* Toggle button shared base */
+.sc-toggle-btn {
+  position: fixed;
+  top: 50vh;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 52px;
+  background: var(--vp-c-bg-elv);
+  border: 1px solid var(--cosmic-border);
+  color: var(--vp-c-text-2);
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+  transition: all 0.2s ease;
+  padding: 0;
+  line-height: 1;
+}
+
+.sc-toggle-btn:hover {
+  background: var(--vp-c-brand-soft);
+  border-color: var(--cosmic-accent);
+  color: var(--cosmic-accent);
+  box-shadow: 0 0 10px var(--cosmic-glow);
+}
+
+/* Left button: tab on right edge of sidebar */
+#sc-sidebar-btn {
+  left: var(--vp-sidebar-width, 272px);
+  border-left: none;
+  border-radius: 0 6px 6px 0;
+  transition: left 0.3s ease, all 0.2s ease;
+}
+
+/* Right button: tab on left edge of aside */
+#sc-aside-btn {
+  right: var(--sc-aside-width, 240px);
+  border-right: none;
+  border-radius: 6px 0 0 6px;
+  transition: right 0.3s ease, all 0.2s ease;
+}
+
+/* Sidebar collapsed */
+html.sc-sidebar-collapsed .VPSidebar {
+  transform: translateX(-100%) !important;
+  transition: transform 0.3s ease !important;
+}
+@media (min-width: 960px) {
+  html.sc-sidebar-collapsed .VPContent.has-sidebar {
+    margin-left: 0 !important;
+    transition: margin-left 0.3s ease;
+  }
+}
+html.sc-sidebar-collapsed #sc-sidebar-btn {
+  left: 0;
+}
+
+/* Aside collapsed */
+html.sc-aside-collapsed .VPDoc .aside {
+  max-width: 0 !important;
+  min-width: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none;
+  overflow: hidden;
+  transition: max-width 0.3s ease, opacity 0.3s ease;
+}
+html.sc-aside-collapsed #sc-aside-btn {
+  right: 0;
+}
+
+/* Desktop-only buttons */
+#sc-sidebar-btn {
+  display: none;
+}
+#sc-aside-btn {
+  display: none;
+}
+@media (min-width: 960px) {
+  #sc-sidebar-btn {
+    display: flex;
+  }
+}
+@media (min-width: 1280px) {
+  #sc-aside-btn {
+    display: flex;
+  }
+}
+
+/* Dark mode */
+.dark #sc-sidebar-btn,
+.dark #sc-aside-btn {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--vp-c-text-2);
+}
+.dark .sc-toggle-btn:hover {
+  background: rgba(0, 212, 255, 0.1);
+  color: var(--cosmic-accent);
+}
