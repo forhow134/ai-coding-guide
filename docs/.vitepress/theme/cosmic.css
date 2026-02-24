@@ -990,8 +990,14 @@ html.sc-sidebar-collapsed .VPSidebar {
 }
 @media (min-width: 960px) {
   html.sc-sidebar-collapsed .VPContent.has-sidebar {
-    margin-left: 0 !important;
-    transition: margin-left 0.3s ease;
+    padding-left: 0 !important;
+    transition: padding-left 0.3s ease;
+  }
+}
+@media (min-width: 1440px) {
+  html.sc-sidebar-collapsed .VPContent.has-sidebar {
+    padding-left: calc((100vw - var(--vp-layout-max-width)) / 2) !important;
+    transition: padding-left 0.3s ease;
   }
 }
 html.sc-sidebar-collapsed #sc-sidebar-btn {
