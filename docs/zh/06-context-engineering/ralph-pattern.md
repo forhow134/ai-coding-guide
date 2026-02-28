@@ -1,4 +1,4 @@
-# 6.5 Ralph Wiggum 模式
+# 6.6 Ralph Wiggum 模式
 
 <DifficultyBadge level="intermediate" />
 <CostBadge cost="$0.50-5.00" />

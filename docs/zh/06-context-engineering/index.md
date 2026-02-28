@@ -9,7 +9,8 @@ graph TB
     A[Context Engineering] --> B[6.1 Context Engineering 概念]
     A --> C[6.2 AGENTS.md 标准]
     A --> D[6.3 Rules & Skills 体系]
-    A --> E[6.4 Vibe Coding 与 AI-First 开发流]
+    A --> F[6.4 Claude Skills 构建指南]
+    A --> E[6.5 Vibe Coding 与 AI-First 开发流]
     
     B --> B1[上下文 vs 提示词]
     B --> B2[上下文窗口管理]
@@ -20,9 +21,13 @@ graph TB
     C --> C3[实际编写]
     
     D --> D1[Cursor Rules]
-    D --> D2[Agent Skills]
+    D --> D2[Claude Skills]
     D --> D3[CLAUDE.md]
     D --> D4[Codex 配置]
+    
+    F --> F1[Skill 结构与原则]
+    F --> F2[构建与测试]
+    F --> F3[设计模式]
     
     E --> E1[AI-First 工作流]
     E --> E2[协作模式]
@@ -32,6 +37,7 @@ graph TB
     style B fill:#fff4e6
     style C fill:#fff4e6
     style D fill:#fff4e6
+    style F fill:#fff4e6
     style E fill:#fff4e6
 ```
 

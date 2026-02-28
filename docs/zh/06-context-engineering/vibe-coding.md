@@ -1,4 +1,4 @@
-# 6.4 Vibe Coding 与 AI-First 开发流
+# 6.5 Vibe Coding 与 AI-First 开发流
 
 <DifficultyBadge level="intermediate" />
 <CostBadge cost="$0" />
@@ -8,6 +8,7 @@
 - [6.1 Context Engineering 概念](./index.md)
 - [6.2 AGENTS.md 标准](./agents-md.md)
 - [6.3 Rules & Skills 体系](./rules-skills.md)
+- [6.4 Claude Skills 构建指南](./claude-skills.md)
 
 > **Vibe Coding = 用"感觉"写代码**：你不需要记住每一行怎么写，只需要知道"对的代码"长什么样。
 
